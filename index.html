@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        #wrap {
+            position: relative;
+        }
+
+        /*Стили для увеличительного стекла:*/
+
+        .glass {
+            position: absolute;
+            cursor: none;
+            width: 300px;
+            height: 250px;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap">
+        <img id="my" src="images/map.jpg" alt="" style="width: 1340px; height: 520px" />
+    </div>
+
+    <script>
+        function magnify(imgID, zoom) {
+            let img, glass, w, h;
+            img = document.getElementById(imgID);
+            glass = document.createElement("DIV");
+            glass.setAttribute("class", "glass");
+            glass.style.top = img.height + "px";
+            img.parentElement.insertBefore(glass, img);
+            glass.style.backgroundImage = "url('" + img.src + "')";
+            glass.style.backgroundRepeat = "no-repeat";
+            glass.style.backgroundSize =
+                img.width * zoom + "px " + img.height * zoom + "px";         
+            w = glass.style.width / 2;
+            h = glass.style.height / 2;
+            glass.addEventListener("mousemove", moveMagnifier);
+            img.addEventListener("mousemove", moveMagnifier);
+            function moveMagnifier(event) {
+                let x, y;
+                event.preventDefault();
+                x = event.offsetX;
+                y = event.offsetY;
+                glass.style.backgroundPosition =
+                    "-" + (x * zoom - w) + "px -" + (y * zoom - h) + "px";
+            }
+        }
+        magnify("my", 3);
+    </script>
+</body>
+
+</html>
